@@ -140,6 +140,10 @@ func (c *Config) getNodeInfo(attemptSSL bool) error {
 		stateURL.Scheme = "https"
 	}
 
+	if len(c.Collector.MesosAgent.Principal) > 0 {
+		stateURL.User = url.UserPassword(c.Collector.MesosAgent.Principal, c.Collector.MesosAgent.Secret)
+	}
+
 	node, err := c.getNodeInfoFromURL(stateURL)
 	if err != nil {
 		return err
@@ -232,6 +236,7 @@ func getNewConfig(args []string) (Config, error) {
 		os.Exit(0)
 	}
 
+	log.Info("Configpath: ", c.ConfigPath)
 	if len(c.ConfigPath) > 0 {
 		if err := c.loadConfig(); err != nil {
 			return c, err

@@ -80,6 +80,7 @@ func (c *Collector) getContainerMetrics() error {
 		Scheme: c.RequestProtocol,
 		Host:   net.JoinHostPort(c.nodeInfo.IPAddress, strconv.Itoa(c.Port)),
 		Path:   "/containers",
+		User:   url.UserPassword(c.Principal, c.Secret),
 	}
 
 	c.HTTPClient.Timeout = HTTPTIMEOUT

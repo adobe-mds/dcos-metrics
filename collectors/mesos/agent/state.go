@@ -103,6 +103,7 @@ func (c *Collector) getAgentState() error {
 		Scheme: c.RequestProtocol,
 		Host:   net.JoinHostPort(c.nodeInfo.IPAddress, strconv.Itoa(c.Port)),
 		Path:   "/state",
+		User:   url.UserPassword(c.Principal, c.Secret),
 	}
 
 	c.HTTPClient.Timeout = HTTPTIMEOUT
